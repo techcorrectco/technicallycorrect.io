@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requires - The Future of Development</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: #2a2a2a;
+            color: #e0e0e0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .scan-lines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        header {
+            padding: 60px 0 40px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border-bottom: 4px solid #ff6b35;
+        }
+
+        .broadcast-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: #1a1a1a;
+            padding: 8px 24px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: 96px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            color: #e0e0e0;
+            letter-spacing: 8px;
+            line-height: 1;
+        }
+
+        .tagline {
+            font-size: 24px;
+            color: #ffb84d;
+            font-weight: 600;
+            max-width: 700px;
+            letter-spacing: 1px;
+        }
+
+        section {
+            padding: 60px 0;
+        }
+
+        h2 {
+            font-size: 64px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            line-height: 1.1;
+        }
+
+        .problem-section {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            border-left: 8px solid #ff6b35;
+        }
+
+        .problem-section h2 {
+            color: #ff6b35;
+        }
+
+        .intro-text {
+            font-size: 28px;
+            margin-bottom: 50px;
+            line-height: 1.5;
+            font-weight: 500;
+            color: #b0b0b0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+            margin: 60px 0;
+        }
+
+        .stat-box {
+            background: #1a1a1a;
+            padding: 50px 30px;
+            text-align: center;
+            border-right: 2px solid #ff6b35;
+            border-bottom: 2px solid #ff6b35;
+        }
+
+        .stat-box:nth-child(3n) {
+            border-right: none;
+        }
+
+        .stat-number {
+            font-size: 96px;
+            color: #ffb84d;
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: 2px;
+        }
+
+        .stat-label {
+            font-size: 18px;
+            margin-top: 20px;
+            color: #e0e0e0;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-label a {
+            color: #888;
+            text-decoration: none;
+            border-bottom: 1px dotted #666;
+            transition: color 0.3s, border-color 0.3s;
+        }
+
+        .stat-label a:hover {
+            color: #ffb84d;
+            border-bottom-color: #ffb84d;
+        }
+
+        .pain-points {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 60px 0;
+        }
+
+        .pain-card {
+            background: #1a1a1a;
+            padding: 40px;
+            border-left: 6px solid #ff6b35;
+        }
+
+        .pain-card h3 {
+            font-size: 28px;
+            color: #ff6b35;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .pain-card p {
+            font-size: 20px;
+            line-height: 1.6;
+            color: #b0b0b0;
+        }
+
+        .dream-section {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border-left: 8px solid #4ecdc4;
+        }
+
+        .dream-section h2 {
+            color: #4ecdc4;
+        }
+
+        .vision-statement {
+            background: #1a1a1a;
+            padding: 60px;
+            margin: 60px 0;
+            border-left: 8px solid #4ecdc4;
+            font-size: 32px;
+            line-height: 1.7;
+            color: #e0e0e0;
+            font-weight: 500;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin: 60px 0;
+        }
+
+        .benefit-card {
+            background: #1a1a1a;
+            padding: 50px;
+            border-bottom: 4px solid #4ecdc4;
+        }
+
+        .benefit-icon {
+            font-size: 56px;
+            margin-bottom: 20px;
+        }
+
+        .benefit-card h3 {
+            font-size: 32px;
+            color: #4ecdc4;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .benefit-card p {
+            font-size: 22px;
+            line-height: 1.6;
+            color: #b0b0b0;
+        }
+
+        .solution-section {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            border-left: 8px solid #ffb84d;
+        }
+
+        .solution-section h2 {
+            color: #ffb84d;
+        }
+
+        .flow-container {
+            margin: 80px 0;
+        }
+
+        .flow-step {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 40px;
+            margin: 40px 0;
+            padding: 40px;
+            background: #1a1a1a;
+            border-left: 6px solid #ffb84d;
+            align-items: center;
+        }
+
+        .flow-number {
+            font-size: 96px;
+            font-weight: 700;
+            color: #ffb84d;
+            line-height: 1;
+        }
+
+        .flow-content h3 {
+            font-size: 36px;
+            color: #ffb84d;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .flow-content p {
+            font-size: 22px;
+            color: #b0b0b0;
+            line-height: 1.6;
+        }
+
+        .why-it-matters {
+            background: #111;
+            padding: 60px;
+            margin: 60px 0;
+            border: 3px solid #ffb84d;
+        }
+
+        .why-it-matters h3 {
+            font-size: 48px;
+            color: #ffb84d;
+            margin-bottom: 30px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-align: center;
+        }
+
+        .matters-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .matter-item {
+            padding: 30px;
+            background: #1a1a1a;
+            border-left: 4px solid #ff6b35;
+        }
+
+        .matter-item h4 {
+            font-size: 24px;
+            color: #ff6b35;
+            margin-bottom: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .matter-item p {
+            font-size: 19px;
+            color: #b0b0b0;
+            line-height: 1.6;
+        }
+
+        .mini-cta {
+            background: #1a1a1a;
+            border: 3px solid #ff6b35;
+            padding: 40px;
+            text-align: center;
+            margin: 60px auto;
+            max-width: 700px;
+        }
+
+        .mini-cta h3 {
+            font-size: 28px;
+            color: #ff6b35;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .mini-cta p {
+            font-size: 18px;
+            color: #b0b0b0;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .mini-cta-btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #ff6b35 0%, #ffb84d 100%);
+            border: none;
+            color: #1a1a1a;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .mini-cta-btn:hover {
+            background: linear-gradient(135deg, #ffb84d 0%, #ff6b35 100%);
+            transform: translateY(-2px);
+        }
+
+        .cta-section {
+            padding: 120px 0;
+            background: linear-gradient(135deg, #1a1a1a 0%, #111 100%);
+            border-top: 4px solid #ff6b35;
+            text-align: center;
+        }
+
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #2a2a2a;
+            padding: 80px 60px;
+            border: 4px solid #ffb84d;
+            position: relative;
+        }
+
+        .cta-container:before {
+            content: "";
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            border: 2px solid #ff6b35;
+            pointer-events: none;
+        }
+
+        .cta-container h2 {
+            color: #ffb84d;
+            margin-bottom: 30px;
+            font-size: 56px;
+        }
+
+        .cta-text {
+            font-size: 24px;
+            color: #e0e0e0;
+            margin-bottom: 50px;
+            line-height: 1.6;
+        }
+
+        .email-form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .email-input {
+            padding: 25px;
+            background: #1a1a1a;
+            border: 3px solid #4ecdc4;
+            color: #e0e0e0;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .email-input:focus {
+            outline: none;
+            border-color: #ffb84d;
+            background: #111;
+        }
+
+        .email-input::placeholder {
+            color: #666;
+        }
+
+        .submit-btn {
+            padding: 25px;
+            background: linear-gradient(135deg, #ff6b35 0%, #ffb84d 100%);
+            border: none;
+            color: #1a1a1a;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #ffb84d 0%, #ff6b35 100%);
+            transform: translateY(-2px);
+        }
+
+        .urgency {
+            margin-top: 30px;
+            font-size: 16px;
+            color: #ff6b35;
+            letter-spacing: 3px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .accent-bar {
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b35 0%, #ffb84d 50%, #4ecdc4 100%);
+            margin: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px;
+            background: #1a1a1a;
+            border-top: 4px solid #ff6b35;
+        }
+
+        footer p {
+            font-size: 16px;
+            color: #666;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 1024px) {
+            h1 {
+                font-size: 64px;
+                letter-spacing: 4px;
+            }
+            
+            h2 {
+                font-size: 48px;
+            }
+
+            .stats-grid,
+            .pain-points,
+            .benefits-grid,
+            .matters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .flow-step {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .flow-number {
+                font-size: 64px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scan-lines"></div>
+    
+    <header>
+        <div class="container">
+            <div class="broadcast-badge">BACK TO THE FUTURE</div>
+            <h1>REQUIRES</h1>
+            <p class="tagline">The future was always in the past. We just made it work.</p>
+        </div>
+    </header>
+
+    <section class="problem-section">
+        <div class="container">
+            <h2>THE CHAOS<br>OF TODAY</h2>
+            <p class="intro-text">Remember when people wrote requirements? Then we got "agile" and decided documentation was the enemy. Now you're drowning in chaos, wondering why nothing works.</p>
+            
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-number">68%</div>
+                    <div class="stat-label">Projects Likely to Fail<br><span style="font-size: 12px; font-weight: 400;"><a href="https://sourcinginnovation.com/wordpress/2024/10/25/two-and-a-half-decades-of-project-failure/" target="_blank" rel="noopener noreferrer">Due to requirements issues (Standish Group, 2020)</a></span></div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">3-5X</div>
+                    <div class="stat-label">Cost to Fix After Release<br><span style="font-size: 12px; font-weight: 400;"><a href="https://www.seguetech.com/rising-costs-defects/" target="_blank" rel="noopener noreferrer">vs. fixing during design (IBM Systems Sciences, 1981)</a></span></div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">40%</div>
+                    <div class="stat-label">Time on Requirements<br><span style="font-size: 12px; font-weight: 400;"><a href="https://www.jamasoftware.com/requirements-management-guide/requirements-gathering-and-management-processes/how-long-do-requirements-take/" target="_blank" rel="noopener noreferrer">Clarification and rework (Industry benchmarks)</a></span></div>
+                </div>
+            </div>
+
+            <div class="pain-points">
+                <div class="pain-card">
+                    <h3>Lost Context</h3>
+                    <p>Requirements scattered across Slack, email, and meeting notes. When it's time to build, nobody remembers what was actually decided.</p>
+                </div>
+                <div class="pain-card">
+                    <h3>Review Hell</h3>
+                    <p>Massive pull requests sit for weeks because they're too big to review. By the time feedback comes, the context is long gone.</p>
+                </div>
+                <div class="pain-card">
+                    <h3>Scope Creep</h3>
+                    <p>Every feature balloons. Developers add "obvious" functionality that was never requested, creating unpredictable timelines.</p>
+                </div>
+                <div class="pain-card">
+                    <h3>Integration Failures</h3>
+                    <p>Teams build in isolation. When it's time to connect the pieces, nothing fits. Coordination happens too late.</p>
+                </div>
+            </div>
+
+            <div class="mini-cta">
+                <h3>Sound Familiar?</h3>
+                <p>Stop watching your team drown in requirements chaos. Get early access and help us build the solution.</p>
+                <a href="#signup" class="mini-cta-btn">Get Early Access</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="dream-section">
+        <div class="container">
+            <h2>THE FUTURE<br>YOU DESERVE</h2>
+            <p class="intro-text">Wouldn't it be nice if requirements wrote themselves? If every feature had a complete design before code existed? If pull requests were small enough to actually review?</p>
+
+            <div class="vision-statement">
+                What if you could describe what you want in plain English, and get back complete, hierarchical requirements in seconds? What if every requirement automatically became a detailed implementation plan? What if code generation produced focused PRs that reviewers could understand in minutes? Your predecessors had it figured out: write down what you're building before you build it. Measure twice, cut once. A problem well-documented is half solved. Then we threw it all away for "moving fast." Now we move slowly, break things, and wonder what went wrong. Requires brings back the discipline that always worked—but makes it instant.
+            </div>
+
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <h3>Ship Faster</h3>
+                    <p>What if requirements gathering took seconds instead of days? Your team would stop talking and start building. Features that took weeks would take days.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Build Right</h3>
+                    <p>What if you never had to guess what the spec meant? Every requirement would be clear, atomic, and testable. Developers would know exactly what to build.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Review Confidently</h3>
+                    <p>What if PRs were small enough to understand? Each one would map to specific requirements. Reviewers could actually grasp what changed and why. Code review would be productive again.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Know Everything</h3>
+                    <p>What if every line of code traced back to a business need? Every commit would reference a requirement. When something broke, you'd know exactly why it existed.</p>
+                </div>
+            </div>
+
+            <div class="mini-cta">
+                <h3>Ready for This?</h3>
+                <p>Join the waitlist and be part of building a better way to develop software.</p>
+                <a href="#signup" class="mini-cta-btn">Join the Waitlist</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="accent-bar"></div>
+
+    <section class="solution-section">
+        <div class="container">
+            <h2>HOW IT<br>WORKS</h2>
+            <p class="intro-text">Requires transforms your development process from chaos to precision. Here's how the future works.</p>
+
+            <div class="flow-container">
+                <div class="flow-step">
+                    <div class="flow-number">01</div>
+                    <div class="flow-content">
+                        <h3>Describe</h3>
+                        <p>Write what you want in plain English. "Add user authentication with email and password." That's it. No templates, no ceremony.</p>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-number">02</div>
+                    <div class="flow-content">
+                        <h3>Generate</h3>
+                        <p>AI analyzes your request and creates a complete hierarchy of requirements. Parent requirements for the big picture, child requirements for atomic implementation. All following RFC-2119 standards.</p>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-number">03</div>
+                    <div class="flow-content">
+                        <h3>Design</h3>
+                        <p>System reads your codebase, analyzes patterns, and creates comprehensive implementation plans. Architecture decisions documented before code exists.</p>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-number">04</div>
+                    <div class="flow-content">
+                        <h3>Build</h3>
+                        <p>Code generation produces production-ready implementations. Follows your patterns, uses your utilities, respects your architecture. Every commit maps to a requirement.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="why-it-matters">
+                <h3>WHY THIS CHANGES EVERYTHING</h3>
+                <div class="matters-grid">
+                    <div class="matter-item">
+                        <h4>RFC-2119 Compliance</h4>
+                        <p>Every requirement uses SHALL/SHOULD/MAY correctly. No ambiguity about what's required versus optional. Legal and technical teams finally speak the same language.</p>
+                    </div>
+                    <div class="matter-item">
+                        <h4>Semantic Relationships</h4>
+                        <p>AI understands how requirements relate. Parent-child hierarchies emerge automatically. When one changes, the system knows what else needs updating.</p>
+                    </div>
+                    <div class="matter-item">
+                        <h4>Reviewable Chunks</h4>
+                        <p>Requirements automatically decompose into atomic pieces. Each PR is small enough to review thoroughly. Code quality improves because reviews actually happen.</p>
+                    </div>
+                    <div class="matter-item">
+                        <h4>Hierarchical Analysis</h4>
+                        <p>Changes propagate intelligently. Update a parent requirement, and the system tells you exactly which children are affected. No more surprise breaking changes.</p>
+                    </div>
+                    <div class="matter-item">
+                        <h4>Design First</h4>
+                        <p>Implementation plans exist before code. Architectural mistakes get caught in design phase, not code review. Teams align on approach before anyone writes a line.</p>
+                    </div>
+                    <div class="matter-item">
+                        <h4>Complete Traceability</h4>
+                        <p>Business needs to deployed code in one unbroken chain. Compliance teams love you. Future developers understand why things exist. Technical debt becomes visible.</p>
+                    </div>
+                    <div class="matter-item">
+                        <h4>Pattern Recognition</h4>
+                        <p>System learns your codebase. Generated code uses your existing utilities, follows your conventions, matches your style. It's like having a senior dev who's read everything.</p>
+                    </div>
+                    <div class="matter-item">
+                        <h4>Sibling Coordination</h4>
+                        <p>Related requirements know about each other. Shared interfaces get defined upfront. Integration happens by design, not accident. Teams stop stepping on each other.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-container" id="signup">
+                <h2>STOP DEVELOPING.<br>START ENGINEERING.</h2>
+                <p class="cta-text">Requires is currently in development. Sign up now to shape the product, get early access when we launch, and be among the first teams to experience the future of requirements management.</p>
+                
+                <form class="email-form" onsubmit="handleSubmit(event)">
+                    <input 
+                        type="email" 
+                        class="email-input" 
+                        placeholder="YOUR EMAIL ADDRESS" 
+                        required
+                        id="emailInput"
+                    >
+                    <button type="submit" class="submit-btn">Get Early Access</button>
+                </form>
+                
+                <p class="urgency">LIMITED EARLY ACCESS SPOTS • HELP BUILD THE FUTURE</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>REQUIRES © 2025 • THE TECHNICALLY CORRECT COMPANY</p>
+            <p style="margin-top: 15px; color: #444;">THE FUTURE OF SOFTWARE DEVELOPMENT POWERED BY THE PAST</p>
+        </div>
+    </footer>
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            const email = document.getElementById('emailInput').value;
+            
+            alert('EARLY ACCESS REQUEST SUBMITTED\n\n' + email + '\n\nYou\'ll be among the first to know when we launch. We\'d love your feedback on what features matter most to you.');
+            
+            document.getElementById('emailInput').value = '';
+        }
+    </script>
+</body>
+</html>
